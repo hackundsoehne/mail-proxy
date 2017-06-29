@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var request = require('superagent');
+var ENV_VARS = require('../tools/ENV_VARS');
 
 var app = express();
 app.use(bodyParser.json());
@@ -11,15 +12,11 @@ app.use(function(req, res, next) {
   next();
 });
 
-var mailchimpInstance = 'us16';
-var listUniqueId = 'ca6e90c2fb';
-var mailchimpApiKey = 'dbb937616a11d39ab5a22a966569b7a2-us16';
-
 app.post('/mailsignup', function (req, res) {
   request
-    .post('https://' + mailchimpInstance + '.api.mailchimp.com/3.0/lists/' + listUniqueId + '/members/')
+    .post('https://' + ENV_VARS.CONSTANTS.MAILCHIMP_INSTANCE + '.api.mailchimp.com/3.0/lists/' + ENV_VARS.CONSTANTS.LIST_UNIQUE_ID + '/members/')
     .set('Content-Type', 'application/json;charset=utf-8')
-    .set('Authorization', 'Basic ' + new Buffer('any:' + mailchimpApiKey ).toString('base64'))
+    .set('Authorization', 'Basic ' + new Buffer('any:' + ENV_VARS.CONSTANTS.MAILCHIMP_API_KEY).toString('base64'))
     .send({
       'email_address': req.body.EMAIL,
       'status': 'subscribed',

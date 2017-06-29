@@ -1,0 +1,22 @@
+{
+  "name": "mail-proxy",
+  "version": "1.0.0",
+  "description": "Mail proxy for Hack & Söhne",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/hacksoehne/mail-proxy"
+  },
+  "author": "Hack & Söhne",
+  "license": "ISC",
+  "homepage": "https://hackundsoehne.de",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "superagent": "^3.5.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node ./src/index.js"
+  }
+}

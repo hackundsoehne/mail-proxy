@@ -29,7 +29,7 @@ app.post('/mailsignup', function (req, res) {
       if (response.status < 300 || (response.status === 400 && response.body.title === "Member Exists")) {
         res.send('success');
       } else {
-        res.send(err, ENV_VARS);
+        res.send(ENV_VARS);
       }
     });
 });

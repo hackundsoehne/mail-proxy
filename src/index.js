@@ -19,21 +19,23 @@ app.post('/mailsignup', function (req, res) {
     .set('Authorization', 'Basic ' + new Buffer('any:' + ENV_VARS.CONSTANTS.MAILCHIMP_API_KEY).toString('base64'))
     .send({
       'email_address': req.body.EMAIL,
-      'status': 'subscribed',
+      'status_if_new': 'subscribed',
       'merge_fields': {
         'FNAME': req.body.FNAME,
-        'LNAME': req.body.LNAME
-      }
+      },
+      'interests': req.body.INTERESTS,
+      'update_existing': true
     })
     .end(function(err, response) {
       if (response.status < 300 || (response.status === 400 && response.body.title === "Member Exists")) {
         res.send('success');
       } else {
         res.send('error');
+        console.log(response.body)
       }
     });
 });
 
-app.listen(4567, function () {
-  console.log('Server listening on port 4567.');
+app.listen(8080, function () {
+  console.log('Server listening on port 8080.');
 });

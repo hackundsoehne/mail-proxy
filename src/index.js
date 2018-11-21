@@ -41,16 +41,7 @@ app.use((req, res, next) => {
 });
 
 // Add global logging middleware
-app.use(logRequest);
-
-function logRequest(req, res, next) {
-    console.log(`${new Date()} ${getIp(req)} ${req.method} ${req.url}`);
-    next();
-};
-
-function getIp(req) {
-    return req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-};
+app.use(require('morgan')('combined'));
 
 // Health Check Endpoint
 app.get('/health', (req, res) => res.status(200).end());

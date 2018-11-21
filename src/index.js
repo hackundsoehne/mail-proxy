@@ -32,17 +32,19 @@ app.use(function(req, res, next) {
 
 app.post('/mailsignup', function (req, res) {
   request
-    .post('https://' + MAILCHIMP_INSTANCE + '.api.mailchimp.com/3.0/lists/' + LIST_UNIQUE_ID + '/members/')
+    .post('https://' + MAILCHIMP_INSTANCE + '.api.mailchimp.com/3.0/lists/' + LIST_UNIQUE_ID)
     .set('Content-Type', 'application/json;charset=utf-8')
     .set('Authorization', 'Basic ' + Buffer.from('any:' + MAILCHIMP_API_KEY).toString('base64'))
     .send({
-      'email_address': req.body.EMAIL,
-      'status_if_new': 'subscribed',
-      'merge_fields': {
-        'FNAME': req.body.FNAME,
-        'LNAME': req.body.LNAME
-      },
-      'interests': req.body.INTERESTS,
+      'members': [{
+        'email_address': req.body.EMAIL,
+        'status_if_new': 'subscribed',
+        'merge_fields': {
+          'FNAME': req.body.FNAME,
+          'LNAME': req.body.LNAME
+        },
+        'interests': req.body.INTERESTS
+      }],
       'update_existing': true
     })
     .end(function(err, response) {

@@ -1,7 +1,25 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var request = require('superagent');
-var ENV_VARS = require('../tools/ENV_VARS');
+const MAILCHIMP_INSTANCE = process.env.MAILCHIMP_INSTANCE
+const LIST_UNIQUE_ID = process.env.LIST_UNIQUE_ID
+const MAILCHIMP_API_KEY = process.env.MAILCHIMP_API_KEY
+
+if ( typeof MAILCHIMP_INSTANCE == 'undefined' || !MAILCHIMP_INSTANCE )
+{
+  console.error("MAILCHIMP_INSTANCE environment variable is undefined")
+  process.exit(1)
+}
+if ( typeof LIST_UNIQUE_ID == 'undefined' || !LIST_UNIQUE_ID )
+{
+  console.error("LIST_UNIQUE_ID environment variable is undefined")
+  process.exit(1)
+}
+if ( typeof MAILCHIMP_API_KEY == 'undefined' || !MAILCHIMP_API_KEY )
+{
+  console.error("MAILCHIMP_API_KEY environment variable is undefined")
+  process.exit(1)
+}
 
 var app = express();
 app.use(bodyParser.json());
@@ -14,9 +32,9 @@ app.use(function(req, res, next) {
 
 app.post('/mailsignup', function (req, res) {
   request
-    .post('https://' + ENV_VARS.CONSTANTS.MAILCHIMP_INSTANCE + '.api.mailchimp.com/3.0/lists/' + ENV_VARS.CONSTANTS.LIST_UNIQUE_ID + '/members/')
+    .post('https://' + MAILCHIMP_INSTANCE + '.api.mailchimp.com/3.0/lists/' + LIST_UNIQUE_ID + '/members/')
     .set('Content-Type', 'application/json;charset=utf-8')
-    .set('Authorization', 'Basic ' + Buffer.from('any:' + ENV_VARS.CONSTANTS.MAILCHIMP_API_KEY).toString('base64'))
+    .set('Authorization', 'Basic ' + Buffer.from('any:' + MAILCHIMP_API_KEY).toString('base64'))
     .send({
       'email_address': req.body.EMAIL,
       'status_if_new': 'subscribed',

@@ -24,6 +24,7 @@ if (typeof MAILCHIMP_API_KEY == 'undefined' || !MAILCHIMP_API_KEY) {
 
 // Create HTTP Server
 const app = express();
+app.enable('trust proxy');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 

@@ -16,12 +16,13 @@ app.post('/mailsignup', function (req, res) {
   request
     .post('https://' + ENV_VARS.CONSTANTS.MAILCHIMP_INSTANCE + '.api.mailchimp.com/3.0/lists/' + ENV_VARS.CONSTANTS.LIST_UNIQUE_ID + '/members/')
     .set('Content-Type', 'application/json;charset=utf-8')
-    .set('Authorization', 'Basic ' + new Buffer('any:' + ENV_VARS.CONSTANTS.MAILCHIMP_API_KEY).toString('base64'))
+    .set('Authorization', 'Basic ' + Buffer.from('any:' + ENV_VARS.CONSTANTS.MAILCHIMP_API_KEY).toString('base64'))
     .send({
       'email_address': req.body.EMAIL,
       'status_if_new': 'subscribed',
       'merge_fields': {
         'FNAME': req.body.FNAME,
+        'LNAME': req.body.LNAME
       },
       'interests': req.body.INTERESTS,
       'update_existing': true
@@ -31,11 +32,10 @@ app.post('/mailsignup', function (req, res) {
         res.send('success');
       } else {
         res.send('error');
-        console.log(response.body)
       }
     });
 });
 
-app.listen(8080, function () {
-  console.log('Server listening on port 8080.');
+app.listen(4567, function () {
+  console.log('Server listening on port 4567.');
 });

@@ -1,9 +1,10 @@
-FROM node:7-onbuild
+FROM node:11-alpine
 
-RUN mv ./tools/ENV_VARS.js ./tools/ENV_VARS.temp.js
-RUN apt-get update
-RUN yes | apt-get install gettext
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+COPY . /usr/src/app
+RUN rm -rf node_modules && npm install && npm cache clean --force
 
 EXPOSE 4567
-
-ENTRYPOINT ["/bin/bash", "-c", "envsubst < ./tools/ENV_VARS.temp.js > ./tools/ENV_VARS.js && npm start"]
+CMD ["npm", "start"]

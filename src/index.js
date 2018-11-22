@@ -56,7 +56,7 @@ app.post('/mailsignup', function (req, res) {
         .send({
             'members': [{
                 'email_address': req.body.EMAIL,
-                'status_if_new': 'subscribed',
+                'status_if_new': 'pending',
                 'merge_fields': {
                     'FNAME': req.body.FNAME,
                     'LNAME': req.body.LNAME
